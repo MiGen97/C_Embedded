@@ -8,7 +8,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define _NOP() do { __asm__ __volatile__ ("nop"); } while (0)
 #define PORTB_T (*((unsigned int*)0x38))
 #define DDRB_T  (*((unsigned int*)0x37))
 #define PINB_T  (*((unsigned int*)0x36))
@@ -28,7 +27,6 @@ int main(void)
 	
     while (1) 
     {
-		_NOP();
 		if(PINB_T>>3 & 1u){
 			PORTB_T |= PB4_T;
 		}else{
