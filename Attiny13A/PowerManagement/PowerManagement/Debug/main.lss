@@ -1,0 +1,146 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000070  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000c4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000c4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000f4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000130  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000364  00000000  00000000  00000150  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000030c  00000000  00000000  000004b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000001b6  00000000  00000000  000007c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00000978  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000258  00000000  00000000  0000099c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000010  00000000  00000000  00000bf4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	02 d0       	rcall	.+4      	; 0x22 <main>
+  1e:	26 c0       	rjmp	.+76     	; 0x6c <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <main>:
+
+int main(void)
+{
+    /* Replace with your application code */
+	//Enable pin3 as Input
+	DDRB&=~(1<<3);
+  22:	bb 98       	cbi	0x17, 3	; 23
+	PORTB|=1<<3;
+  24:	c3 9a       	sbi	0x18, 3	; 24
+	
+	//Internal pull-up activated
+	MCUCR&=~(1<<6);
+  26:	85 b7       	in	r24, 0x35	; 53
+  28:	8f 7b       	andi	r24, 0xBF	; 191
+  2a:	85 bf       	out	0x35, r24	; 53
+	
+	//Set the pin4 as Output
+	DDRB|=1<<4;
+  2c:	bc 9a       	sbi	0x17, 4	; 23
+
+	
+	//Set enable the Global Interrupt (I bit)
+	SREG|=1<<7;
+  2e:	8f b7       	in	r24, 0x3f	; 63
+  30:	80 68       	ori	r24, 0x80	; 128
+  32:	8f bf       	out	0x3f, r24	; 63
+	//Enable INT0 Interrupt
+	GIMSK|=1<<6; //Set INT0 to 1
+  34:	8b b7       	in	r24, 0x3b	; 59
+  36:	80 64       	ori	r24, 0x40	; 64
+  38:	8b bf       	out	0x3b, r24	; 59
+	//Enable the rising edge of INT0 to generate an interrupt request
+	MCUCR&=~(1<<1); //Set ISC01 to 1
+  3a:	85 b7       	in	r24, 0x35	; 53
+  3c:	8d 7f       	andi	r24, 0xFD	; 253
+  3e:	85 bf       	out	0x35, r24	; 53
+	MCUCR&=~1;	 //Set ISC00 to 1
+  40:	85 b7       	in	r24, 0x35	; 53
+  42:	8e 7f       	andi	r24, 0xFE	; 254
+  44:	85 bf       	out	0x35, r24	; 53
+	//MCUCR=0xFC; it work with hex numbers either
+	
+	
+    while (1) 
+    {
+		if(PINB&=1<<3){
+  46:	86 b3       	in	r24, 0x16	; 22
+  48:	88 70       	andi	r24, 0x08	; 8
+  4a:	86 bb       	out	0x16, r24	; 22
+  4c:	88 23       	and	r24, r24
+  4e:	61 f0       	breq	.+24     	; 0x68 <__SREG__+0x29>
+			//going to sleep
+			//but first turn the LED from pin4 ON
+			
+			PORTB|=1<<4;
+  50:	c4 9a       	sbi	0x18, 4	; 24
+			
+			//Set Sleep Enable bit to "TRUE"
+			MCUCR|=1<<5;		//SE
+  52:	85 b7       	in	r24, 0x35	; 53
+  54:	80 62       	ori	r24, 0x20	; 32
+  56:	85 bf       	out	0x35, r24	; 53
+			
+			//Set the sleep mode to "Power-Down" with the two Sleep Mode Select Bits
+			MCUCR|=1<<4;		//SM1
+  58:	85 b7       	in	r24, 0x35	; 53
+  5a:	80 61       	ori	r24, 0x10	; 16
+  5c:	85 bf       	out	0x35, r24	; 53
+			MCUCR&=~(1<<3);		//SM2
+  5e:	85 b7       	in	r24, 0x35	; 53
+  60:	87 7f       	andi	r24, 0xF7	; 247
+  62:	85 bf       	out	0x35, r24	; 53
+			////Enable INT0 Interrupt
+			//GIMSK|=1<<6; //Set INT0 to 1
+			////Enable the rising edge of INT0 to generate an interrupt request
+			//MCUCR&=~(1<<1); //Set ISC01 to 1
+			//MCUCR&=~1;	 //Set ISC00 to 1
+			asm("sleep");
+  64:	88 95       	sleep
+  66:	ef cf       	rjmp	.-34     	; 0x46 <__SREG__+0x7>
+			
+		}else{
+			//turn off the LED connected to PIN4
+			PORTB&=~(1<<4);
+  68:	c4 98       	cbi	0x18, 4	; 24
+  6a:	ed cf       	rjmp	.-38     	; 0x46 <__SREG__+0x7>
+
+0000006c <_exit>:
+  6c:	f8 94       	cli
+
+0000006e <__stop_program>:
+  6e:	ff cf       	rjmp	.-2      	; 0x6e <__stop_program>
