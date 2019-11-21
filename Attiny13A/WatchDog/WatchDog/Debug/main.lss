@@ -1,0 +1,151 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000080  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000d4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000d4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000104  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000140  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000003f6  00000000  00000000  00000160  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000038a  00000000  00000000  00000556  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000020a  00000000  00000000  000008e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00000aec  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000029d  00000000  00000000  00000b10  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000007b  00000000  00000000  00000dad  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  00000e28  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	02 d0       	rcall	.+4      	; 0x22 <main>
+  1e:	2e c0       	rjmp	.+92     	; 0x7c <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <main>:
+#
+int main(void)
+{
+	int counter=0;	
+	//Enable watchdog timer interrupt
+	SREG|=IBIT;		//set the IBIT from the Status Registers to 1 to enable the interrupts
+  22:	8f b7       	in	r24, 0x3f	; 63
+  24:	80 68       	ori	r24, 0x80	; 128
+  26:	8f bf       	out	0x3f, r24	; 63
+	
+	//to enable the prescaler on Watchdog you need to follow a specific sequence of steps (see page 39 in datasheet)
+	//1. write 1 to the bits WDCE and WDE (one single operation)
+	WDTCR|=((1<<WDCE)|(1<<WDE));
+  28:	81 b5       	in	r24, 0x21	; 33
+  2a:	88 61       	ori	r24, 0x18	; 24
+  2c:	81 bd       	out	0x21, r24	; 33
+	//2. within the next four clocks write to WDE and WDPbits as desired and clear WDCE. (one single operation)
+	//set the watchdog timeout at 8 seconds
+	WDTCR&=((~(1<<WDCE))&(~(1<<WDP1))&(~(1<<WDP2)));
+  2e:	81 b5       	in	r24, 0x21	; 33
+  30:	89 7e       	andi	r24, 0xE9	; 233
+  32:	81 bd       	out	0x21, r24	; 33
+	WDTCR|=((1<<WDE)|(1<<WDP3)|(1<<WDP0));
+  34:	81 b5       	in	r24, 0x21	; 33
+  36:	89 62       	ori	r24, 0x29	; 41
+  38:	81 bd       	out	0x21, r24	; 33
+	
+	//set the pin4 as Output
+	DDRB|=PB4_T;
+  3a:	bc 9a       	sbi	0x17, 4	; 23
+  3c:	81 e0       	ldi	r24, 0x01	; 1
+  3e:	90 e0       	ldi	r25, 0x00	; 0
+  40:	01 c0       	rjmp	.+2      	; 0x44 <__SREG__+0x5>
+  42:	01 96       	adiw	r24, 0x01	; 1
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(counter%2){
+  44:	9c 01       	movw	r18, r24
+  46:	21 50       	subi	r18, 0x01	; 1
+  48:	31 09       	sbc	r19, r1
+  4a:	20 ff       	sbrs	r18, 0
+  4c:	0c c0       	rjmp	.+24     	; 0x66 <__SREG__+0x27>
+			
+			//turn on the LED connected to pin4
+			PORTB|=PB4_T;
+  4e:	c4 9a       	sbi	0x18, 4	; 24
+			//Set Sleep Enable bit to "TRUE"
+			MCUCR|=SE_T;
+  50:	25 b7       	in	r18, 0x35	; 53
+  52:	20 62       	ori	r18, 0x20	; 32
+  54:	25 bf       	out	0x35, r18	; 53
+			
+			//Set the sleep mode to "Power-Down" with the two Sleep Mode Select Bits
+			MCUCR|=SM1_T;	
+  56:	25 b7       	in	r18, 0x35	; 53
+  58:	20 61       	ori	r18, 0x10	; 16
+  5a:	25 bf       	out	0x35, r18	; 53
+			MCUCR&=~SM0_T;
+  5c:	25 b7       	in	r18, 0x35	; 53
+  5e:	27 7f       	andi	r18, 0xF7	; 247
+  60:	25 bf       	out	0x35, r18	; 53
+			
+			//increment the counter an make it at the next loop to go on the other branch of the IF statement
+			counter+=1;
+			asm("sleep");
+  62:	88 95       	sleep
+  64:	ee cf       	rjmp	.-36     	; 0x42 <__SREG__+0x3>
+		}else{
+			
+			//turn off the LED connected to pin4
+			PORTB&=~PB4_T;
+  66:	c4 98       	cbi	0x18, 4	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  68:	2f e7       	ldi	r18, 0x7F	; 127
+  6a:	3a e1       	ldi	r19, 0x1A	; 26
+  6c:	46 e0       	ldi	r20, 0x06	; 6
+  6e:	21 50       	subi	r18, 0x01	; 1
+  70:	30 40       	sbci	r19, 0x00	; 0
+  72:	40 40       	sbci	r20, 0x00	; 0
+  74:	e1 f7       	brne	.-8      	; 0x6e <__SREG__+0x2f>
+  76:	00 c0       	rjmp	.+0      	; 0x78 <__SREG__+0x39>
+  78:	00 00       	nop
+  7a:	e3 cf       	rjmp	.-58     	; 0x42 <__SREG__+0x3>
+
+0000007c <_exit>:
+  7c:	f8 94       	cli
+
+0000007e <__stop_program>:
+  7e:	ff cf       	rjmp	.-2      	; 0x7e <__stop_program>
