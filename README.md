@@ -1,2 +1,2 @@
-# Cpp_projects
-A repository with my C++ projects
+# C_Embedded
+A presentation of my learning process of the Embedded World.
