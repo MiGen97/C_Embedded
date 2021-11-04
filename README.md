@@ -1,2 +1,2 @@
 # C_Embedded
-A presentation of my learning process of the Embedded World.
+Tracking the progress I make in C Language and Embedded World.
