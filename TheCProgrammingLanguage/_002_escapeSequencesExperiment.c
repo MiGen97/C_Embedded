@@ -19,7 +19,7 @@
 
 struct EscapeSequence
 {
- char string[3];
+ char string[6];
  char value;
 };
 
@@ -41,10 +41,12 @@ int main(void)
 		{"\\v",'\v'},			
 		{"\\b",'\b'},			
 		{"\\e",'\e'},			
-		{"\\f",'\f'}
+		{"\\f",'\f'},
+		{"\\101",'\101'},
+		{"\\x41",'\x41'}
 	};
 
-	for(int i=0; i<13; i++)
+	for(int i=0; i<15; i++)
 	{
 		printf("Character %s is printed as %c.\n",array[i].string, array[i].value);
 	}
