@@ -1,17 +1,17 @@
 /******************************************************************
- * \file	exercise_1_6_checkEOFValue.c
+ * \file	exercise_1_7_printEOFValue.c
  *
- * \brief 	Program that checks the value of != operator is.
+ * \brief 	Program that prints the value of EOF.
  * 
  * \description	This file is using the stdio library to print
- *		the value returned by operator !=. 
+ *		the value of EOF. 
  *
  * \author	Mihail P. (MP)
- * \date	09.XI.2021 03:24AM
+ * \date	09.XI.2021 03:44AM
  * \tag		"The C Programming Language 2nd Edition"
  * 		by Brian W. Kernighan and Dennis M. Ritchie
  * 		Chapter 1, Section 1.5
- * 		page 17, Exercise 1-6
+ * 		page 17, Exercise 1-7
  ******************************************************************/
 
 
@@ -19,11 +19,7 @@
 
 int main(void)
 {
-	int c;
-	
-	while( c = (getchar() != EOF))
-		printf("%d\n",c);
-	printf("%d\n",c); /* print when the value is 0 */
+	printf("char= %c\nvalue= %d\n",EOF, EOF);
 	return 0;
 }
 
