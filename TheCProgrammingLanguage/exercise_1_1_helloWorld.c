@@ -1,5 +1,5 @@
 /******************************************************************
- * \file	_001_helloWorld.c
+ * \file	exercise_1_1_helloWorld.c
  *
  * \brief 	Program that prints "hello, world" on the screen.
  * 

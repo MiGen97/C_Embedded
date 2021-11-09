@@ -1,5 +1,5 @@
 /******************************************************************
- * \file	_002_escapeSequencesExperiment.c
+ * \file	exercise_1_2_escapeSequencesExperiment.c
  *
  * \brief 	Program that experiments with Escape Sequences.
  * 
