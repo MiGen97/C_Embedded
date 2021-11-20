@@ -1,5 +1,5 @@
 /*--------------------------------------------------*/
-/*------------------ Functions ---------------------*/
+/*---------------- Pole Functions ------------------*/
 /*--------------------------------------------------*/
 
 
@@ -44,8 +44,8 @@ boolean FunctionCheckEnvironmentalLightIntensity(void)
   /* read the input on photoresistor */
   uint16_t sensorValue = analogRead(PHOTORESISTOR_PIN);
   /* print out the value you read: */
-  Serial.print("Photoresistor value is ");
-  Serial.println(sensorValue);
+//  Serial.print("Photoresistor value is ");
+//  Serial.println(sensorValue);
   if(LIGHT_INTENSITY_LOW > sensorValue)
     answer = true;
   return answer;
@@ -67,9 +67,5 @@ boolean FunctionCheckMovement(void)
 {
   /* read the input on movement sensor pin: */
   boolean answer = !digitalRead(MOVEMENT_SENSOR_PIN);
-
-  /* print out the value you read: */
-  Serial.print("Movement sensor value is ");
-  Serial.println(answer);
   return answer;
 }
