@@ -66,6 +66,6 @@ boolean FunctionCheckLightTimeInterval(uint32_t pTime)
 boolean FunctionCheckMovement(void)
 {
   /* read the input on movement sensor pin: */
-  boolean answer = !digitalRead(MOVEMENT_SENSOR_PIN);
+  boolean answer = digitalRead(MOVEMENT_SENSOR_PIN);
   return answer;
 }

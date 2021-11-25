@@ -15,7 +15,7 @@
 #define MOVEMENT_SENSOR_PIN 13
 
 /* pole node configuration parameters */
-#define ID "002"
+#define ID "001" /* 002 */     /* 003 */
 
 /* magic numbers replacement */
 #define TICKS_DELAY 5
@@ -32,7 +32,9 @@
 #define   MESH_PREFIX     "Comani_Lights_System"
 #define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
 #define   MESH_PORT       5555
-#define   MESH_GENERIC_RESPONSE_MESSAGE  "Major Tom here, I can hear you low and clear Ground control." //"Ground Control to major Tom. Can you hear me?"
+#define   MESH_GENERIC_RESPONSE_MESSAGE  "Ground Control to major Tom. Can you hear me?" 
+/* "Major Tom here, I can hear you low and clear Ground control." */
+/*"Tom, this is your wife! I know."*/ 
 
 /* values for the intesity of the bulb
  * max value is 2^16 - 1 = 65535
