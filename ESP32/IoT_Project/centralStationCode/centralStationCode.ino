@@ -9,49 +9,21 @@
 /* FreeRTOS defines */
 #define PRO_CORE 0
 #define APP_CORE 1
-#define INCLUDE_vTaskSuspend                    1
 
-/* pins definition */
-#define LED_PIN                 2
-#define PHOTORESISTOR_PIN       36
-#define MOVEMENT_SENSOR_PIN     13
-#define DIAGNOSE_LED_PIN        34
-/* pole node configuration parameters */
-#define ID "001" /* 002 */     /* 003 */
+/* central hub configuration parameters */
+#define ID "000"
 
 /* magic numbers replacement */
 #define TICKS_DELAY                       5
 #define BULB_TOGGLE_MODE_LIGHT_INTENSITY  false
 #define BULB_TOGGLE_MODE_TIME_INTERVAL    true
-/* analog values ranges from 0=0V to 4095=3.3V */
-#define LIGHT_INTENSITY_LOW   ((uint16_t) 1000u)
-#define LIGHT_INTENSITY_HIGH  ((uint16_t) 2000u)
-/* setting PWM properties */
-#define PWM_SECONDS_TO_MILLS(x) ((uint16_t)(x*1000u))
-#define PWM_FREQ        ((uint16_t) 100u)
-#define PWM_PERIOD      ((uint16_t)(PWM_SECONDS_TO_MILLS((float)1u/PWM_FREQ)))
-#define PWM_LED_CHANNEL ((uint16_t) 0u)
-#define PWM_RESOLUTION  ((uint16_t) 12u)
 /* analog values for MIN=0=0V and MAX=4095=3.3V */
-#define ANALOG_IN_MIN   ((uint16_t) 0u)
 #define ANALOG_IN_MAX   ((uint16_t) 4095u)
-#define ANALOG_IN_LOW_INTERFERENCE   ((uint16_t) 1000u) /* In ESP32 ADC is not linear 0V=0.1V, 3.2V=3.3V */
-                                                         /* 3.3V/4095 = 0.0008V per unit  */
-                                                         /* 0.0008V*1000 =  0.8V interference tolerance  */
-#define ANALOG_IN_HIGH_INTERFERENCE   ((uint16_t) 100u)
-#define ANALOG_IN_PWD_DIVIDE_PERIOD   ((uint16_t) 10u)
-#define ANALOG_IN_PWM_SAMPLE_RATE     (PWM_PERIOD*ANALOG_IN_PWD_DIVIDE_PERIOD)
 /* Mesh settings */
 #define   MESH_PREFIX     "Comani_Lights_System"
 #define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
 #define   MESH_PORT       5555
-#define   MESH_GENERIC_RESPONSE_MESSAGE  "Ground Control to major Tom. Can you hear me?" 
-/* "Major Tom here, I can hear you low and clear Ground control." */
-/*"Tom, this is your wife! I know."*/ 
-
-/* states in which the bulb can be
- * max value is 2^16 - 1 = 65535
- */
+#define   MESH_GENERIC_RESPONSE_MESSAGE  "This is the UNIVERSE speaking!!!" 
 typedef enum
 {
   bulbMaximumIntensity = ((uint16_t)ANALOG_IN_MAX),
@@ -66,8 +38,6 @@ typedef enum
 /*-------------- External Variables ----------------*/
 /*--------------------------------------------------*/
 extern painlessMesh mesh;
-extern TaskHandle_t xHandle;
-
 
 /*--------------------------------------------------*/
 /*------------------ Prototypes --------------------*/
@@ -75,14 +45,6 @@ extern TaskHandle_t xHandle;
 /*********/
 /* TASKS */
 /*********/
-/* define task for reading the value returned by the movement sensor */
-void TaskCheckMovement( void *pvParameters ); 
-/* define task for checking the conditions to toggle the bulb */
-void TaskCheckToggleBulbConditions( void *pvParameters );
-/* define task for controlling the bulb */
-void TaskControlBulb( void *pvParameters );
-/* define task for bulb diagnose check */
-void TaskDiagnoseBulb(void);
 /* define task for mesh tasks */
 void TaskMaintainMesh( void *pvParameters );
 /* define task for sending message to the mesh*/
@@ -91,11 +53,7 @@ void TaskSendMeshMessage( void *pvParameters );
 /******************/
 /* POLE FUNCTIONS */
 /******************/
-void FunctionInitPWMLED(void);
-void FunctionSetBulb(uint16_t pPWMValue);
 void FunctionSetModeOfBulbToggle(uint8_t pMode);
-boolean FunctionCheckEnvironmentalLightIntensity(void);
-boolean FunctionCheckLightTimeInterval(uint32_t pTime);
 
 /******************/
 /* MESH FUNCTIONS */
@@ -111,55 +69,12 @@ void FunctionNodeTimeAdjustedCallback(int32_t offset);
 /*--------------------------------------------------*/
 /* the setup function runs once when you press reset or power the board */
 void setup() {
-  
-  /* initialize the poleFunction part */
-  FunctionInitPWMLED();
-  pinMode(PHOTORESISTOR_PIN, INPUT);
-  pinMode(MOVEMENT_SENSOR_PIN, INPUT);
-
   /* initialize the meshFunction part */
   FunctionInitMesh();
   
   /* initialize serial communication at 115200 bits per second: */
   Serial.begin(115200);
 
-  /* Set up the tasks to run independently. */
-  xTaskCreatePinnedToCore(
-    TaskCheckMovement
-    ,  "TaskCheckMovement"   /* A name just for humans */
-    ,  1024   /* This stack size can be checked & adjusted by reading the Stack Highwater */
-    ,  NULL
-    ,  1      /* Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest. */
-    ,  NULL 
-    ,  APP_CORE);
-
-  xTaskCreatePinnedToCore(
-    TaskCheckToggleBulbConditions
-    ,  "TaskCheckToggleBulbConditions"
-    ,  1024   /* Stack size */
-    ,  NULL
-    ,  1      /* Priority */
-    ,  NULL 
-    ,  APP_CORE);
-
-  xTaskCreatePinnedToCore(
-    TaskControlBulb
-    ,  "TaskControlBulb"
-    ,  1024   /* Stack size */
-    ,  NULL
-    ,  1      /* Priority */
-    ,  &xHandle /* Task handler */ 
-    ,  APP_CORE);
-
-  xTaskCreatePinnedToCore(
-    TaskDiagnoseBulb
-    ,  "TaskDiagnoseBulb"   /* A name just for humans */
-    ,  1024   /* This stack size can be checked & adjusted by reading the Stack Highwater */
-    ,  NULL
-    ,  1      /* Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest. */
-    ,  NULL 
-    ,  APP_CORE);
-    
   xTaskCreatePinnedToCore(
     TaskMaintainMesh
     ,  "TaskMaintainMesh"

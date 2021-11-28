@@ -65,8 +65,6 @@ typedef enum
 /*-------------- External Variables ----------------*/
 /*--------------------------------------------------*/
 extern painlessMesh mesh;
-extern TaskHandle_t xHandle;
-
 
 /*--------------------------------------------------*/
 /*------------------ Prototypes --------------------*/
@@ -147,7 +145,7 @@ void setup() {
     ,  1024   /* Stack size */
     ,  NULL
     ,  1      /* Priority */
-    ,  &xHandle /* Task handler */ 
+    ,  NULL /* Task handler */ 
     ,  APP_CORE);
 
   xTaskCreatePinnedToCore(
