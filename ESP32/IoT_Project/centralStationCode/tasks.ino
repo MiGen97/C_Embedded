@@ -108,10 +108,10 @@ void TaskDiagnoseBulb( void *pvParameters )
       {
         bulbDiagnosticState = bulbOperatesNormal;
       }
-//      Serial.print("Led diagnostic is:");
-//      Serial.println(bulbDiagnosticState);
-//      Serial.print("Sensor Value is:");
-//      Serial.println(sensorValue);
+      Serial.print("Led diagnostic is:");
+      Serial.println(bulbDiagnosticState);
+      Serial.print("Sensor Value is:");
+      Serial.println(sensorValue);
     }
     /* TICKS_DELAY (one tick = 15ms) in between reads for stability */
     vTaskDelay(100*TICKS_DELAY);  

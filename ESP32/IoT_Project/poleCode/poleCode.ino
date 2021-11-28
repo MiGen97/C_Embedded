@@ -9,7 +9,6 @@
 /* FreeRTOS defines */
 #define PRO_CORE 0
 #define APP_CORE 1
-#define INCLUDE_vTaskSuspend                    1
 
 /* pins definition */
 #define LED_PIN                 2
@@ -25,17 +24,22 @@
 #define BULB_TOGGLE_MODE_TIME_INTERVAL    true
 /* analog values ranges from 0=0V to 4095=3.3V */
 #define LIGHT_INTENSITY_LOW   ((uint16_t) 1000u)
-#define LIGHT_INTENSITY_HIGH  ((uint16_t) 3000u)
+#define LIGHT_INTENSITY_HIGH  ((uint16_t) 2000u)
+/* setting PWM properties */
+#define PWM_SECONDS_TO_MILLS(x) ((uint16_t)(x*1000u))
+#define PWM_FREQ        ((uint16_t) 100u)
+#define PWM_PERIOD      ((uint16_t)(PWM_SECONDS_TO_MILLS((float)1u/PWM_FREQ)))
+#define PWM_LED_CHANNEL ((uint16_t) 0u)
+#define PWM_RESOLUTION  ((uint16_t) 12u)
 /* analog values for MIN=0=0V and MAX=4095=3.3V */
 #define ANALOG_IN_MIN   ((uint16_t) 0u)
 #define ANALOG_IN_MAX   ((uint16_t) 4095u)
-#define ANALOG_IN_INTERFERENCE   ((uint16_t) 200u) /* In ESP32 ADC is not linear 0V=0.1V, 3.2V=3.3V */
-                                                   /* 3.3V/4095 = 0.0008V per unit  */
-                                                   /* 0.0008V*200 =  0.16V interference tolerance  */
-/* setting PWM properties */
-#define PWM_FREQ        ((uint16_t)1000u)
-#define PWM_LED_CHANNEL ((uint16_t) 0u)
-#define PWM_RESOLUTION  ((uint16_t) 16u)
+#define ANALOG_IN_LOW_INTERFERENCE   ((uint16_t) 1000u) /* In ESP32 ADC is not linear 0V=0.1V, 3.2V=3.3V */
+                                                         /* 3.3V/4095 = 0.0008V per unit  */
+                                                         /* 0.0008V*1000 =  0.8V interference tolerance  */
+#define ANALOG_IN_HIGH_INTERFERENCE   ((uint16_t) 100u)
+#define ANALOG_IN_PWD_DIVIDE_PERIOD   ((uint16_t) 10u)
+#define ANALOG_IN_PWM_SAMPLE_RATE     (PWM_PERIOD*ANALOG_IN_PWD_DIVIDE_PERIOD)
 /* Mesh settings */
 #define   MESH_PREFIX     "Comani_Lights_System"
 #define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
@@ -49,7 +53,7 @@
  */
 typedef enum
 {
-  bulbMaximumIntensity = ((uint16_t)65535u),
+  bulbMaximumIntensity = ((uint16_t)ANALOG_IN_MAX),
   bulbMinimumIntensity = ((uint16_t)(bulbMaximumIntensity/5u)),
   bulbTurnedOff = ((uint16_t)0u),
   bulbOperatesNormal = (uint16_t)1u,
