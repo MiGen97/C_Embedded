@@ -6,24 +6,32 @@
 /*-----------------------------------------------*/
 /*------------------ Defines --------------------*/
 /*-----------------------------------------------*/
+/* FreeRTOS defines */
 #define PRO_CORE 0
 #define APP_CORE 1
+#define INCLUDE_vTaskSuspend                    1
 
 /* pins definition */
-#define LED_PIN 2
-#define PHOTORESISTOR_PIN 36
-#define MOVEMENT_SENSOR_PIN 13
-
+#define LED_PIN                 2
+#define PHOTORESISTOR_PIN       36
+#define MOVEMENT_SENSOR_PIN     13
+#define DIAGNOSE_LED_PIN        34
 /* pole node configuration parameters */
 #define ID "001" /* 002 */     /* 003 */
 
 /* magic numbers replacement */
-#define TICKS_DELAY 5
-#define BULB_TOGGLE_MODE_LIGHT_INTENSITY false
-#define BULB_TOGGLE_MODE_TIME_INTERVAL   true
-/* analog values ranges from 0=0V to 4096=3.3V */
+#define TICKS_DELAY                       5
+#define BULB_TOGGLE_MODE_LIGHT_INTENSITY  false
+#define BULB_TOGGLE_MODE_TIME_INTERVAL    true
+/* analog values ranges from 0=0V to 4095=3.3V */
 #define LIGHT_INTENSITY_LOW   ((uint16_t) 1000u)
 #define LIGHT_INTENSITY_HIGH  ((uint16_t) 3000u)
+/* analog values for MIN=0=0V and MAX=4095=3.3V */
+#define ANALOG_IN_MIN   ((uint16_t) 0u)
+#define ANALOG_IN_MAX   ((uint16_t) 4095u)
+#define ANALOG_IN_INTERFERENCE   ((uint16_t) 200u) /* In ESP32 ADC is not linear 0V=0.1V, 3.2V=3.3V */
+                                                   /* 3.3V/4095 = 0.0008V per unit  */
+                                                   /* 0.0008V*200 =  0.16V interference tolerance  */
 /* setting PWM properties */
 #define PWM_FREQ        ((uint16_t)1000u)
 #define PWM_LED_CHANNEL ((uint16_t) 0u)
@@ -36,23 +44,24 @@
 /* "Major Tom here, I can hear you low and clear Ground control." */
 /*"Tom, this is your wife! I know."*/ 
 
-/* values for the intesity of the bulb
+/* states in which the bulb can be
  * max value is 2^16 - 1 = 65535
  */
 typedef enum
 {
   bulbMaximumIntensity = ((uint16_t)65535u),
   bulbMinimumIntensity = ((uint16_t)(bulbMaximumIntensity/5u)),
-  bulbTurnedOff = ((uint16_t)0u)
-}bulbStates;
-
-
+  bulbTurnedOff = ((uint16_t)0u),
+  bulbOperatesNormal = (uint16_t)1u,
+  bulbOpenCircuit = (uint16_t)2u,
+  bulbShortCircuit = (uint16_t)3u,
+} bulbStates;
 
 /*--------------------------------------------------*/
 /*-------------- External Variables ----------------*/
 /*--------------------------------------------------*/
 extern painlessMesh mesh;
-
+extern TaskHandle_t xHandle;
 
 
 /*--------------------------------------------------*/
@@ -67,6 +76,8 @@ void TaskCheckMovement( void *pvParameters );
 void TaskCheckToggleBulbConditions( void *pvParameters );
 /* define task for controlling the bulb */
 void TaskControlBulb( void *pvParameters );
+/* define task for bulb diagnose check */
+void TaskDiagnoseBulb(void);
 /* define task for mesh tasks */
 void TaskMaintainMesh( void *pvParameters );
 /* define task for sending message to the mesh*/
@@ -132,9 +143,18 @@ void setup() {
     ,  1024   /* Stack size */
     ,  NULL
     ,  1      /* Priority */
-    ,  NULL 
+    ,  &xHandle /* Task handler */ 
     ,  APP_CORE);
 
+  xTaskCreatePinnedToCore(
+    TaskDiagnoseBulb
+    ,  "TaskDiagnoseBulb"   /* A name just for humans */
+    ,  1024   /* This stack size can be checked & adjusted by reading the Stack Highwater */
+    ,  NULL
+    ,  1      /* Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest. */
+    ,  NULL 
+    ,  APP_CORE);
+    
   xTaskCreatePinnedToCore(
     TaskMaintainMesh
     ,  "TaskMaintainMesh"

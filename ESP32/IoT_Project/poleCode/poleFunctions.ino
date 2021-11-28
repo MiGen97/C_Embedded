@@ -22,6 +22,8 @@ void FunctionInitPWMLED(void)
 void FunctionSetBulb(uint16_t pPWMValue)
 {
   /* changing the LED brightness*/
+//  Serial.print("Led set to:");
+//  Serial.println(pPWMValue);
   ledcWrite(PWM_LED_CHANNEL, pPWMValue);
 }
 
