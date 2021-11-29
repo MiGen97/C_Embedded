@@ -23,17 +23,8 @@ void FunctionSetBulb(uint16_t pPWMValue)
 {
   /* changing the LED brightness*/
   ledcWrite(PWM_LED_CHANNEL, pPWMValue);
+  bulbPWMValue = (bulbStates)pPWMValue;
 }
-
-/** 
- *  Function for selecting how to turn on the bulb 
- *  with a fixed time interval or by light intensity
- */
-void FunctionSetModeOfBulbToggle(uint8_t pMode)
-{
-
-}
-
 
 /**
  * Function for reading the analog value from the Photoresistor 

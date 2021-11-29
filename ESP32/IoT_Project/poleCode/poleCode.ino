@@ -16,8 +16,8 @@
 #define MOVEMENT_SENSOR_PIN     13
 #define DIAGNOSE_LED_PIN        34
 /* pole node configuration parameters */
-#define ID "001" /* 002 */     /* 003 */
-
+#define POLE_ID ((uint32_t)1u)   /* 2 */     /* 3 */
+#define CENTRAL_HUB_ID ((uint32_t)2988694845u) 
 /* magic numbers replacement */
 #define TICKS_DELAY                       5
 #define BULB_TOGGLE_MODE_LIGHT_INTENSITY  false
@@ -44,9 +44,6 @@
 #define   MESH_PREFIX     "Comani_Lights_System"
 #define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
 #define   MESH_PORT       5555
-#define   MESH_GENERIC_RESPONSE_MESSAGE  "Ground Control to major Tom. Can you hear me?" 
-/* "Major Tom here, I can hear you low and clear Ground control." */
-/*"Tom, this is your wife! I know."*/ 
 
 /* states in which the bulb can be
  * max value is 2^16 - 1 = 65535
@@ -90,7 +87,6 @@ void TaskSendMeshMessage( void *pvParameters );
 /******************/
 void FunctionInitPWMLED(void);
 void FunctionSetBulb(uint16_t pPWMValue);
-void FunctionSetModeOfBulbToggle(uint8_t pMode);
 boolean FunctionCheckEnvironmentalLightIntensity(void);
 boolean FunctionCheckLightTimeInterval(uint32_t pTime);
 

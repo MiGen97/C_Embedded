@@ -11,7 +11,7 @@
 #define APP_CORE 1
 
 /* central hub configuration parameters */
-#define ID "000"
+#define ID ((uint32_t)0u) 
 
 /* magic numbers replacement */
 #define TICKS_DELAY                       5
@@ -23,7 +23,7 @@
 #define   MESH_PREFIX     "Comani_Lights_System"
 #define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
 #define   MESH_PORT       5555
-#define   MESH_GENERIC_RESPONSE_MESSAGE  "This is the UNIVERSE speaking!!!" 
+#define   MESH_MAX_POLE_NUMBER ((uint16_t)100u)
 typedef enum
 {
   bulbMaximumIntensity = ((uint16_t)ANALOG_IN_MAX),
@@ -33,6 +33,15 @@ typedef enum
   bulbOpenCircuit = (uint16_t)2u,
   bulbShortCircuit = (uint16_t)3u,
 } bulbStates;
+
+typedef struct pInfo
+{
+  uint16_t poleID;
+  uint16_t statusBulb;
+  uint16_t bulbIntensity;
+  boolean isNight;
+  boolean detectsMovements;
+} poleInfo;
 
 /*--------------------------------------------------*/
 /*-------------- External Variables ----------------*/

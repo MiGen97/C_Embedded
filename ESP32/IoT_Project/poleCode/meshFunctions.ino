@@ -19,15 +19,48 @@ void FunctionInitMesh(void)
 /* Function for sending the message through the mesh */
 void FunctionSendMessage(void)
 {
-  String msg = MESH_GENERIC_RESPONSE_MESSAGE;
-  msg += mesh.getNodeId();
-  mesh.sendBroadcast( msg );
+#if ARDUINOJSON_VERSION_MAJOR==6
+  DynamicJsonDocument jsonBuffer(1024);
+  JsonObject msg = jsonBuffer.to<JsonObject>();
+#else
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& msg = jsonBuffer.createObject();
+#endif
+  msg["PoleID"]=POLE_ID;
+  msg["StatusBulb"] = bulbDiagnosticState;
+  msg["BulbLightIntensity"] = bulbPWMValue;
+  msg["IsNight"] = bulbTurnOnCondition;
+  msg["DetectedMovement"] = bulbMovementCondition;
+  
+  String str;
+#if ARDUINOJSON_VERSION_MAJOR==6
+  serializeJson(msg, str);
+#else
+  msg.printTo(str);
+#endif
+  mesh.sendSingle(CENTRAL_HUB_ID, str);
 }
 
 /* Function for event message received */
 void FunctionReceivedCallback(uint32_t from, String &msg)
 {
-  Serial.printf("startHere: Received from %u msg=%s\n", from, msg.c_str());
+#if ARDUINOJSON_VERSION_MAJOR==6
+  DynamicJsonDocument jsonBuffer(1024 + msg.length());
+  DeserializationError error = deserializeJson(jsonBuffer, msg);
+  if (error) {
+    Serial.printf("DeserializationError\n");
+    return;
+  }
+  JsonObject root = jsonBuffer.as<JsonObject>();
+#else
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(msg);
+#endif
+
+  if (root.containsKey("ToogleMode")) {
+      bulbToggleMode = (root["ToogleMode"].as<String>() == "1") ? true : false;
+ //     Serial.printf("Handled from %s. Toggle mode is %s. Message is \"%s\"\n", root["SenderID"].as<String>(), root["ToogleMode"].as<String>() == "true" ? "BULB_TOGGLE_MODE_TIME_INTERVAL" : "BULB_TOGGLE_MODE_LIGHT_INTENSITY", msg.c_str());
+  }
 }
 
 /* Function for event new node in mesh*/
