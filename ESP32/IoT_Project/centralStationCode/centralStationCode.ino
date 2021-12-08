@@ -87,7 +87,7 @@ void FunctionInitSPIFFS(void);
 void FunctionInitWiFiAP(void);
 void FunctionInitAsyncServer(void);
 void FunctionSetModeOfBulbToggle(uint8_t pMode);
-
+void FunctionWebServerStop(void);
 /******************/
 /* MESH FUNCTIONS */
 /******************/

@@ -20,6 +20,7 @@ void TaskHandleFSM( void *pvParameters )
       case meshState:
       {
         FunctionSendMessage();
+        vTaskDelay(TICKS_DELAY*1000);
         if(true == buttonPressed)
           currentState = deactivateMeshState;
         break;
@@ -47,6 +48,7 @@ void TaskHandleFSM( void *pvParameters )
       }
       case deactivateServerState:
       {
+        FunctionWebServerStop();
         currentState = initMeshState;
         break;
       }
@@ -58,6 +60,6 @@ void TaskHandleFSM( void *pvParameters )
     }
     buttonPressed = false;
     /* TICKS_DELAY (one tick = 15ms) in between reads for stability */
-    vTaskDelay(TICKS_DELAY*1000);  
+    vTaskDelay(TICKS_DELAY);  
   }
 }

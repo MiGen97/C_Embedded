@@ -102,3 +102,10 @@ void FunctionInitAsyncServer(void)
   /* Start server */
   server.begin();
 }
+
+/* Function used to deactivate the host server */
+void FunctionWebServerStop(void)
+{
+  WiFi.softAPdisconnect (true);
+  server.end();
+}
