@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Street Light Control System</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body style="background-color:#fcde67;">
+  <h1>Smart Street Light Control System</h1>
+  
+  <div class="grid-container">
+ 
+	  <div class="grid-child bulbModes">
+		<script>script.js</script>
+			
+		<h2> Bulb control mode settings </h2>
+		<p><span class="reading">The active bulb control mode is by <strong><u><span id="bulbControlMode"> %bulbControlMode%</span></strong></u>.</span></p>
+		</br>
+		<p> 
+			<div style="font-size: 1.3rem;">Select bulb control mode:</div>
+			<select name="bulbModeSelect" id="bulbModeSelect" onchange="location = this.value;" style="color: #030e12; background-color: #fcde67; border-color: #030e12; border-radius: 7px;">
+				<option value="none" selected disabled hidden> Choose here </option>
+				<option value="/lightMode"> Light control mode </option>
+				<option value="/timeMode"> Time control mode</option>
+			</select>
+		</p>
+	  </div>
+	  
+	  <div class="grid-child poles">
+		<h2>Connected light poles</h2>
+		<a href="/display_poles"><button class="button">Display connected poles</button></a>
+	  </div>
+	  
+  </div>
+  
+</body>
+</html>

@@ -14,6 +14,9 @@ void FunctionInitMesh(void)
   mesh.onNewConnection(&FunctionNewConnectionCallback);
   mesh.onChangedConnections(&FunctionChangedConnectionCallback);
   mesh.onNodeTimeAdjusted(&FunctionNodeTimeAdjustedCallback);
+
+  /* This node and all other nodes should ideally know the mesh contains a root, so call this on all nodes */
+  mesh.setContainsRoot(true);
 }
 
 /* Function for sending the message through the mesh */
@@ -48,7 +51,7 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
   DynamicJsonDocument jsonBuffer(1024 + msg.length());
   DeserializationError error = deserializeJson(jsonBuffer, msg);
   if (error) {
-    Serial.printf("DeserializationError\n");
+    Serial.printf("DeserializationError %s\n",error.c_str());
     return;
   }
   JsonObject root = jsonBuffer.as<JsonObject>();
@@ -58,8 +61,8 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
 #endif
 
   if (root.containsKey("ToogleMode")) {
-      bulbToggleMode = (root["ToogleMode"].as<String>() == "1") ? true : false;
- //     Serial.printf("Handled from %s. Toggle mode is %s. Message is \"%s\"\n", root["SenderID"].as<String>(), root["ToogleMode"].as<String>() == "true" ? "BULB_TOGGLE_MODE_TIME_INTERVAL" : "BULB_TOGGLE_MODE_LIGHT_INTENSITY", msg.c_str());
+      bulbToggleMode = (root["ToogleMode"].as<String>() == "true") ? BULB_TOGGLE_MODE_TIME_INTERVAL : BULB_TOGGLE_MODE_LIGHT_INTENSITY;
+      //Serial.printf("Handled from %s. Toggle mode is %s. Message is \"%s\"\n", root["SenderID"].as<String>(), root["ToogleMode"].as<String>() == "true" ? "BULB_TOGGLE_MODE_TIME_INTERVAL" : "BULB_TOGGLE_MODE_LIGHT_INTENSITY", msg.c_str());
   }
 }
 

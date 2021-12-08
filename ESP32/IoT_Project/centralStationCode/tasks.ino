@@ -1,29 +1,63 @@
 /*--------------------------------------------------*/
 /*---------------------- Tasks ---------------------*/
 /*--------------------------------------------------*/
-
-/* define task for mesh maintain */
-void TaskMaintainMesh( void *pvParameters )
+/* define task for handling the FSM of the central hub*/
+void TaskHandleFSM( void *pvParameters )
 {
   (void) pvParameters;
 
   for (;;)
   {
-    
-    /* TICKS_DELAY (one tick = 15ms) in between reads for stability */
-    vTaskDelay(TICKS_DELAY);  
-  } 
-}
-
-/* define task to send messages through mesh*/
-void TaskSendMeshMessage( void *pvParameters )
-{
-  (void) pvParameters;
-
-  for (;;)
-  {
-    FunctionSendMessage();
+    switch(currentState)
+    {
+      case initMeshState:
+      {
+        /* initialize the meshFunction part */
+        FunctionInitMesh();
+        currentState = meshState;
+        break;
+      }
+      case meshState:
+      {
+        FunctionSendMessage();
+        if(true == buttonPressed)
+          currentState = deactivateMeshState;
+        break;
+      }
+      case deactivateMeshState:
+      {
+        FunctionMeshStop();
+        currentState = initServerState;
+        break;
+      }
+      case initServerState:
+      {
+        /* initialize the centralHubFunction part */
+        FunctionInitSPIFFS();
+        FunctionInitWiFiAP();
+        FunctionInitAsyncServer();
+        currentState = serverState;
+        break;
+      }
+      case serverState:
+      {
+        if(true == buttonPressed)
+          currentState = deactivateServerState;
+        break;
+      }
+      case deactivateServerState:
+      {
+        currentState = initMeshState;
+        break;
+      }
+      default:
+      {
+        currentState = initMeshState;
+        break;
+      }
+    }
+    buttonPressed = false;
     /* TICKS_DELAY (one tick = 15ms) in between reads for stability */
     vTaskDelay(TICKS_DELAY*1000);  
-  } 
+  }
 }

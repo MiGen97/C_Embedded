@@ -77,8 +77,6 @@ void TaskCheckToggleBulbConditions( void *pvParameters );
 void TaskControlBulb( void *pvParameters );
 /* define task for bulb diagnose check */
 void TaskDiagnoseBulb(void);
-/* define task for mesh tasks */
-void TaskMaintainMesh( void *pvParameters );
 /* define task for sending message to the mesh*/
 void TaskSendMeshMessage( void *pvParameters );
 
@@ -104,6 +102,8 @@ void FunctionNodeTimeAdjustedCallback(int32_t offset);
 /*--------------------------------------------------*/
 /* the setup function runs once when you press reset or power the board */
 void setup() {
+  /* initialize serial communication at 115200 bits per second: */
+  Serial.begin(115200);
   
   /* initialize the poleFunction part */
   FunctionInitPWMLED();
@@ -113,9 +113,6 @@ void setup() {
   /* initialize the meshFunction part */
   FunctionInitMesh();
   
-  /* initialize serial communication at 115200 bits per second: */
-  Serial.begin(115200);
-
   /* Set up the tasks to run independently. */
   xTaskCreatePinnedToCore(
     TaskCheckMovement
@@ -152,15 +149,6 @@ void setup() {
     ,  1      /* Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest. */
     ,  NULL 
     ,  APP_CORE);
-    
-  xTaskCreatePinnedToCore(
-    TaskMaintainMesh
-    ,  "TaskMaintainMesh"
-    ,  1024   /* Stack size */
-    ,  NULL
-    ,  1      /* Priority */
-    ,  NULL 
-    ,  PRO_CORE);
     
   xTaskCreatePinnedToCore(
     TaskSendMeshMessage
