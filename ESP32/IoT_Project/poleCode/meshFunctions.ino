@@ -41,6 +41,7 @@ void FunctionSendMessage(void)
 #else
   msg.printTo(str);
 #endif
+  Serial.printf("Pole send string:%s.\n",str);
   mesh.sendSingle(CENTRAL_HUB_ID, str);
 }
 

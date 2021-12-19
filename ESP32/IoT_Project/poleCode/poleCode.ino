@@ -16,7 +16,7 @@
 #define MOVEMENT_SENSOR_PIN     13
 #define DIAGNOSE_LED_PIN        34
 /* pole node configuration parameters */
-#define POLE_ID ((uint32_t)1u)   /* 2 */     /* 3 */
+#define POLE_ID ((uint32_t) 3u)   /* 1 */     /* 2 */
 #define CENTRAL_HUB_ID ((uint32_t)2988694845u) 
 /* magic numbers replacement */
 #define TICKS_DELAY                       5

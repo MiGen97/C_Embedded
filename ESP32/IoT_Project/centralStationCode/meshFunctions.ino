@@ -65,7 +65,7 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
    * Note:  subtract 1u to use also the position 0 in the polesInfo array,
    *        ID 0 is reserved to the central hub
    */
-  int index =(root["PoleID"].as<String>()).toInt()-1u;
+  int index =(root["PoleID"].as<String>()).toInt();
   if(maxPoleID < index) maxPoleID = index;
   polesInfo[index].poleID = (root["PoleID"].as<String>()).toInt();
   polesInfo[index].statusBulb = (bulbStates)((root["StatusBulb"].as<String>()).toInt());
@@ -73,9 +73,9 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
   polesInfo[index].isNight = root["IsNight"].as<String>() == "true" ? true : false;
   polesInfo[index].detectsMovement = root["DetectedMovement"].as<String>() == "true" ? true : false;
 
-//  Serial.printf("Pole info is: poleID=%d, statusBulb=%d, bulbIntensity=%d, isNight=%d, detectsMovement=%d\n",
-//                polesInfo[index].poleID,polesInfo[index].statusBulb,polesInfo[index].bulbIntensity,
-//                polesInfo[index].isNight,polesInfo[index].detectsMovement);
+  Serial.printf("Pole info is: poleID=%d, statusBulb=%d, bulbIntensity=%d, isNight=%d, detectsMovement=%d\n",
+                polesInfo[index].poleID,polesInfo[index].statusBulb,polesInfo[index].bulbIntensity,
+                polesInfo[index].isNight,polesInfo[index].detectsMovement);
 }
 
 /* Function for event new node in mesh*/

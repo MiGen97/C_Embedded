@@ -4,7 +4,7 @@
 /* Replaces placeholders */
 String processor(const String& var)
 {
-  Serial.println(var);
+  /* Serial.println(var); */
   if(var == "bulbControlMode")
   {
     return bulbToggleMode ? "Time" : "Light";
@@ -12,17 +12,32 @@ String processor(const String& var)
   else if(var == "poles")
   {
     String polesConnected = "<option value=\"none\" selected disabled hidden> Choose pole to display info </option>\n";
-    for(int i=0;i<maxPoleID;i++)
+    Serial.printf("<option value=\"none\" selected disabled hidden> Choose pole to display info </option>\n");
+    Serial.printf("Data din memoria ESP32:\n");
+    for(int i=1;i<=maxPoleID;i++)
     {
-      polesConnected += "<option value=\""+String(polesInfo[i].poleID)+"\"> Pole"+String(i)+" </option>\n";
+      polesConnected.concat("<option value=\"");
+      polesConnected.concat(polesInfo[i].poleID);
+      polesConnected.concat("\"> Pole");
+      polesConnected.concat(polesInfo[i].poleID);
+      polesConnected.concat(" </option>\n");
+      Serial.printf("Concat result: %s",polesConnected);
+      
+      Serial.printf("poleID=%s\n",String(polesInfo[i].poleID));
+      Serial.printf("statusBulb=%s\n",String(polesInfo[i].statusBulb));
+      Serial.printf("bulbIntensity=%s\n",String(polesInfo[i].bulbIntensity));
+      Serial.printf("isNight=%s\n",String(polesInfo[i].isNight));
+      Serial.printf("detectsMovement=%s\n",String(polesInfo[i].detectsMovement));
     }
+    
+    Serial.printf("\nData cu lista poles-urilor: \n%s\n",polesConnected);
     return polesConnected;
   }
-  else if(var == "poleID")  return String(polesInfo[poleIndex-1u].poleID);
-  else if(var == "statusBulb")  return String(polesInfo[poleIndex-1u].statusBulb);
-  else if(var == "bulbIntensity")  return String(polesInfo[poleIndex-1u].bulbIntensity);
-  else if(var == "isNight")  return String(polesInfo[poleIndex-1u].isNight);
-  else if(var == "detectsMovement")  return String(polesInfo[poleIndex-1u].detectsMovement);
+  else if(var == "poleID")  return String(polesInfo[poleIndex].poleID);
+  else if(var == "statusBulb")  return String(polesInfo[poleIndex].statusBulb);
+  else if(var == "bulbIntensity")  return String(polesInfo[poleIndex].bulbIntensity);
+  else if(var == "isNight")  return String(polesInfo[poleIndex].isNight);
+  else if(var == "detectsMovement")  return String(polesInfo[poleIndex].detectsMovement);
   
   return String();
 }
@@ -41,9 +56,9 @@ void FunctionInitSPIFFS(void)
 
 void FunctionInitWiFiAP(void)
 {
-  // Set up the AP Wi-Fi network with SSID and password
+  /* Set up the AP Wi-Fi network with SSID and password */
   Serial.print("Setting AP (Access Point)…");
-  // Remove the password parameter, if you want the AP (Access Point) to be open
+  /* Remove the password parameter, if you want the AP (Access Point) to be open */
   WiFi.softAP(ssid, password);
   /* Print ESP32 Local IP Address */
   IPAddress IP = WiFi.softAPIP();
