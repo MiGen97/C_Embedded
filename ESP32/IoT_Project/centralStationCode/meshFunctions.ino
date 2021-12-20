@@ -73,9 +73,11 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
   polesInfo[index].isNight = root["IsNight"].as<String>() == "true" ? true : false;
   polesInfo[index].detectsMovement = root["DetectedMovement"].as<String>() == "true" ? true : false;
 
+  /* 
   Serial.printf("Pole info is: poleID=%d, statusBulb=%d, bulbIntensity=%d, isNight=%d, detectsMovement=%d\n",
                 polesInfo[index].poleID,polesInfo[index].statusBulb,polesInfo[index].bulbIntensity,
                 polesInfo[index].isNight,polesInfo[index].detectsMovement);
+  */
 }
 
 /* Function for event new node in mesh*/

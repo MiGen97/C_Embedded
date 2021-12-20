@@ -12,8 +12,6 @@ String processor(const String& var)
   else if(var == "poles")
   {
     String polesConnected = "<option value=\"none\" selected disabled hidden> Choose pole to display info </option>\n";
-    Serial.printf("<option value=\"none\" selected disabled hidden> Choose pole to display info </option>\n");
-    Serial.printf("Data din memoria ESP32:\n");
     for(int i=1;i<=maxPoleID;i++)
     {
       polesConnected.concat("<option value=\"");
@@ -21,6 +19,7 @@ String processor(const String& var)
       polesConnected.concat("\"> Pole");
       polesConnected.concat(polesInfo[i].poleID);
       polesConnected.concat(" </option>\n");
+      /*
       Serial.printf("Concat result: %s",polesConnected);
       
       Serial.printf("poleID=%s\n",String(polesInfo[i].poleID));
@@ -28,9 +27,10 @@ String processor(const String& var)
       Serial.printf("bulbIntensity=%s\n",String(polesInfo[i].bulbIntensity));
       Serial.printf("isNight=%s\n",String(polesInfo[i].isNight));
       Serial.printf("detectsMovement=%s\n",String(polesInfo[i].detectsMovement));
+      */
     }
     
-    Serial.printf("\nData cu lista poles-urilor: \n%s\n",polesConnected);
+    /* Serial.printf("\nData cu lista poles-urilor: \n%s\n",polesConnected); */
     return polesConnected;
   }
   else if(var == "poleID")  return String(polesInfo[poleIndex].poleID);
@@ -109,8 +109,10 @@ void FunctionInitAsyncServer(void)
     else {
       poleIndex = -1;
     }
+    /*
     Serial.print("poleIndex is: ");
     Serial.println(poleIndex);
+    */
     request->send(200, "text/plain", "OK");
   });
   

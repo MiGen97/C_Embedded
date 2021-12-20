@@ -63,7 +63,8 @@ void FunctionReceivedCallback(uint32_t from, String &msg)
 
   if (root.containsKey("ToogleMode")) {
       bulbToggleMode = (root["ToogleMode"].as<String>() == "true") ? BULB_TOGGLE_MODE_TIME_INTERVAL : BULB_TOGGLE_MODE_LIGHT_INTENSITY;
-      //Serial.printf("Handled from %s. Toggle mode is %s. Message is \"%s\"\n", root["SenderID"].as<String>(), root["ToogleMode"].as<String>() == "true" ? "BULB_TOGGLE_MODE_TIME_INTERVAL" : "BULB_TOGGLE_MODE_LIGHT_INTENSITY", msg.c_str());
+      /* Serial.printf("Handled from %s. Toggle mode is %s. Message is \"%s\"\n", root["SenderID"].as<String>(), root["ToogleMode"].as<String>() == "true" ? "BULB_TOGGLE_MODE_TIME_INTERVAL" : "BULB_TOGGLE_MODE_LIGHT_INTENSITY", msg.c_str());
+       */
   }
 }
 
