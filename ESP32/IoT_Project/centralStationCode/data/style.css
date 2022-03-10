@@ -1,0 +1,83 @@
+html {
+  font-family: Helvetica;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+h1{
+  color: #5bccf6;
+  padding: 2vh;
+  font-size: 2rem;
+  background-color: #fcde67 ;
+}
+h2{
+  color: #030e12;
+  padding: 2vh;
+  font-size: 1.5rem;
+}
+p{
+  font-size: 1rem;
+}
+.button {
+  width: 200px;
+  display: inline-block;
+  background-color: #fcde67 ;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #030e12;
+  border-radius: 7px;
+  color: #030e12;
+  padding: 5px 5px;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 1px;
+  cursor: pointer;
+}
+
+
+.grid-container > div {
+  background-color: #5bccf6;
+  text-align: center;
+  padding: 20px 0;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #030e12;
+  border-radius: 7px;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+	background-color: #fcde67;
+	padding: 10px;
+	text-align: center;
+}
+
+.grid-container2 > div {
+  background-color: #5bccf6;
+  text-align: center;
+  padding: 20px 0;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #030e12;
+  border-radius: 7px;
+}
+
+.grid-container2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+	background-color: #fcde67;
+	padding: 10px;
+	text-align: center;
+}
+.bulbModes {
+	padding: 0 50px 0 20px;
+}
+.poles {
+	padding: 0 50px 0 20px;
+}
+
+button:hover {
+	background-color: #5bf6d3;
+}

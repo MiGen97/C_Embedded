@@ -71,16 +71,50 @@ void TaskControlBulb( void *pvParameters )
   } 
 }
 
-/* define task for mesh maintain */
-void TaskMaintainMesh( void *pvParameters )
+/**
+ * Task to check if there is a short or an open circuit on the bulb
+ */
+void TaskDiagnoseBulb( void *pvParameters )
 {
   (void) pvParameters;
 
   for (;;)
-  {
-    
+  { 
+    /* diagnostic the LED only if is ON */
+    if(true == bulbTurnOnCondition)
+    {
+      /* To read corretly the state of the LED, not interfered by PWM
+       * sample the PWM signal 10*PeriodOfPWM
+       */
+      uint16_t sensorValue = 0u;
+      for(int i=0;i<ANALOG_IN_PWM_SAMPLE_RATE;i++)
+      {
+        sensorValue = analogRead(DIAGNOSE_LED_PIN);
+        if((ANALOG_IN_MIN + ANALOG_IN_LOW_INTERFERENCE) < sensorValue)
+         break;
+         vTaskDelay(1u);
+      }
+      
+      /* read the input on analog DIAGNOSE_LED_PIN: */
+      if(sensorValue < (ANALOG_IN_MIN + ANALOG_IN_LOW_INTERFERENCE))
+      {
+        bulbDiagnosticState = bulbShortCircuit;
+      }
+      else if(sensorValue > (ANALOG_IN_MAX - ANALOG_IN_HIGH_INTERFERENCE))
+      {
+        bulbDiagnosticState = bulbOpenCircuit;
+      }
+      else
+      {
+        bulbDiagnosticState = bulbOperatesNormal;
+      }
+//      Serial.print("Led diagnostic is:");
+//      Serial.println(bulbDiagnosticState);
+//      Serial.print("Sensor Value is:");
+//      Serial.println(sensorValue);
+    }
     /* TICKS_DELAY (one tick = 15ms) in between reads for stability */
-    vTaskDelay(TICKS_DELAY);  
+    vTaskDelay(100*TICKS_DELAY);  
   } 
 }
 

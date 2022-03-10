@@ -1,108 +1,130 @@
-#if CONFIG_FREERTOS_UNICORE
-#define ARDUINO_RUNNING_CORE 0
-#else
-#define ARDUINO_RUNNING_CORE 1
-#endif
+/*-----------------------------------------------*/
+/*------------------ Includes -------------------*/
+/*-----------------------------------------------*/
+#include "WiFi.h"
+#include "SPIFFS.h"
+#include "painlessMesh.h"
+#include "ESPAsyncWebServer.h"
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 13
-#endif
+/*-----------------------------------------------*/
+/*------------------ Defines --------------------*/
+/*-----------------------------------------------*/
+/* FreeRTOS defines */
+#define PRO_CORE 0
+#define APP_CORE 1
 
+/* central hub configuration parameters */
+#define ID ((uint32_t)0u) 
+/* State button select */
+#define SERVER_BUTTON ((uint8_t) 0u)
+/* magic numbers replacement */
+#define TICKS_DELAY                       5
+#define BULB_TOGGLE_MODE_LIGHT_INTENSITY  false
+#define BULB_TOGGLE_MODE_TIME_INTERVAL    true
+/* analog values for MIN=0=0V and MAX=4095=3.3V */
+#define ANALOG_IN_MAX   ((uint16_t) 4095u)
+/* Mesh settings */
+#define   MESH_PREFIX     "Comani_Lights_System"
+#define   MESH_PASSWORD   "Sneaky_Peaky_Like*2021*"
+#define   MESH_PORT       5555
+#define   MESH_MAX_POLE_NUMBER ((uint16_t)100u)
+
+typedef enum
+{
+  bulbMaximumIntensity = ((uint16_t)ANALOG_IN_MAX),
+  bulbMinimumIntensity = ((uint16_t)(bulbMaximumIntensity/5u)),
+  bulbTurnedOff = ((uint16_t)0u),
+  bulbOperatesNormal = (uint16_t)1u,
+  bulbOpenCircuit = (uint16_t)2u,
+  bulbShortCircuit = (uint16_t)3u,
+} bulbStates;
+
+typedef enum 
+{
+  initMeshState = (uint8_t)0u, /* state to init the mesh */
+  meshState = (uint8_t)1u,   /* state when central hub is connected to the mesh, this is the default state */
+  deactivateMeshState = (uint8_t)2u, /* state to deactivate the mesh */
+  initServerState = (uint8_t)3u, /* state to init the server */
+  serverState = (uint8_t)4u,  /* state when the central hub hosts the server for config and info display */
+  deactivateServerState = (uint8_t)5u, /* state to init the server */
+}FSMStates;
+
+typedef struct pInfo
+{
+  uint16_t poleID;
+  uint16_t statusBulb;
+  uint16_t bulbIntensity;
+  boolean isNight;
+  boolean detectsMovement;
+} poleInfo;
+
+
+/*--------------------------------------------------*/
+/*-------------- External Variables ----------------*/
+/*--------------------------------------------------*/
+extern painlessMesh mesh;
+extern FSMStates currentState;
+extern boolean bulbToggleMode;
+/*--------------------------------------------------*/
+/*------------------ Prototypes --------------------*/
+/*--------------------------------------------------*/
 /*********/
 /* TASKS */
 /*********/
-/* define task for turning on and off the bulb */
-void TaskToggleBulb( void *pvParameters );
-/* define task for reading the analog value from the Photoresistor */
-void TaskCheckLightIntensity( void *pvParameters );
+/* define task for handling the FSM of the central hub*/
+void TaskHandleFSM( void *pvParameters );
 
-/*************/
-/* FUNCTIONS */
-/*************/
-/* define function for selecting how to turn on the bulb 
- * at fixed time interval for or by light intensity*/
-void SetModeOfBulbToggle(uint8_t pMode);
+/******************/
+/* ISR FUNCTIONS */
+/******************/
+void IRAM_ATTR isr(void);
 
-// the setup function runs once when you press reset or power the board
+/******************/
+/* POLE FUNCTIONS */
+/******************/
+String FunctionProcessor(const String& var);
+void FunctionInitSPIFFS(void);
+void FunctionInitWiFiAP(void);
+void FunctionInitAsyncServer(void);
+void FunctionSetModeOfBulbToggle(uint8_t pMode);
+void FunctionWebServerStop(void);
+/******************/
+/* MESH FUNCTIONS */
+/******************/
+void FunctionInitMesh(void);
+void FunctionSendMessage(void); 
+void FunctionReceivedCallback(uint32_t from, String &msg);
+void FunctionNewConnectionCallback(uint32_t nodeId);
+void FunctionOnDroppedConnection(uint32_t nodeId);
+void FunctionChangedConnectionCallback(void);
+void FunctionNodeTimeAdjustedCallback(int32_t offset);
+void FunctionMeshStop(void);
+/*--------------------------------------------------*/
+/*---------------- Init function -------------------*/
+/*--------------------------------------------------*/
+/* the setup function runs once when you press reset or power the board */
 void setup() {
-  
-  // initialize serial communication at 115200 bits per second:
+ /* initialize Serial communication at 115200 bits per second: */
   Serial.begin(115200);
+
+  pinMode(SERVER_BUTTON, INPUT_PULLUP);
+  attachInterrupt(SERVER_BUTTON, isr, FALLING);
   
-  // Now set up two tasks to run independently.
   xTaskCreatePinnedToCore(
-    TaskBlink
-    ,  "TaskBlink"   // A name just for humans
-    ,  1024  // This stack size can be checked & adjusted by reading the Stack Highwater
+    TaskHandleFSM
+    ,  "TaskHandleFSM"
+    ,  4096  /* Stack size */
     ,  NULL
-    ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+    ,  1      /* Priority */
     ,  NULL 
-    ,  ARDUINO_RUNNING_CORE);
-
-  xTaskCreatePinnedToCore(
-    TaskAnalogReadA3
-    ,  "AnalogReadA3"
-    ,  1024  // Stack size
-    ,  NULL
-    ,  1  // Priority
-    ,  NULL 
-    ,  ARDUINO_RUNNING_CORE);
-
-  // Now the task scheduler, which takes over control of scheduling individual tasks, is automatically started.
+    ,  PRO_CORE);
+    
+  /* Now the task scheduler, which takes over control of scheduling individual tasks, is automatically started. */
 }
 
 void loop()
 {
-  // Empty. Things are done in Tasks.
-}
-
-/*--------------------------------------------------*/
-/*---------------------- Tasks ---------------------*/
-/*--------------------------------------------------*/
-
-void TaskBlink(void *pvParameters)  // This is a task.
-{
-  (void) pvParameters;
-
-/*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
-    
-  If you want to know what pin the on-board LED is connected to on your ESP32 model, check
-  the Technical Specs of your board.
-*/
-
-  // initialize digital LED_BUILTIN on pin 13 as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  for (;;) // A Task shall never return or exit.
-  {
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    vTaskDelay(1000);  // one tick delay (15ms) in between reads for stability
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    vTaskDelay(1000);  // one tick delay (15ms) in between reads for stability
-  }
-}
-
-void TaskAnalogReadA3(void *pvParameters)  // This is a task.
-{
-  (void) pvParameters;
-  
-/*
-  AnalogReadSerial
-  Reads an analog input on pin A3, prints the result to the serial monitor.
-  Graphical representation is available using serial plotter (Tools > Serial Plotter menu)
-  Attach the center pin of a potentiometer to pin A3, and the outside pins to +5V and ground.
-
-  This example code is in the public domain.
-*/
-
-  for (;;)
-  {
-    // read the input on analog pin A3:
-    int sensorValueA3 = analogRead(A3);
-    // print out the value you read:
-    Serial.println(sensorValueA3);
-    vTaskDelay(1000);  // one tick delay (15ms) in between reads for stability
-  }
+  /* Empty. Things are done in Tasks. */
+  if(meshState == currentState)
+    mesh.update();
 }

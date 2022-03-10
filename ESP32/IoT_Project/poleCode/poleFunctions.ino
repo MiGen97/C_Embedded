@@ -1,8 +1,6 @@
 /*--------------------------------------------------*/
 /*---------------- Pole Functions ------------------*/
 /*--------------------------------------------------*/
-
-
 /**
  * Function to initialize the PWM of LED
  *
@@ -23,31 +21,24 @@ void FunctionSetBulb(uint16_t pPWMValue)
 {
   /* changing the LED brightness*/
   ledcWrite(PWM_LED_CHANNEL, pPWMValue);
+  bulbPWMValue = (bulbStates)pPWMValue;
 }
-
-/** 
- *  Function for selecting how to turn on the bulb 
- *  with a fixed time interval or by light intensity
- */
-void FunctionSetModeOfBulbToggle(uint8_t pMode)
-{
-
-}
-
 
 /**
  * Function for reading the analog value from the Photoresistor 
  */
 boolean FunctionCheckEnvironmentalLightIntensity(void)
 {
-  boolean answer = false;
+  /* static variable to make a hysteresis on the light threshold */
+  static boolean answer = false;
   /* read the input on photoresistor */
   uint16_t sensorValue = analogRead(PHOTORESISTOR_PIN);
-  /* print out the value you read: */
-//  Serial.print("Photoresistor value is ");
-//  Serial.println(sensorValue);
+
+  /* hysteresis logic */
   if(LIGHT_INTENSITY_LOW > sensorValue)
     answer = true;
+  if(LIGHT_INTENSITY_HIGH < sensorValue)
+    answer = false;
   return answer;
 }
 

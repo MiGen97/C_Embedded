@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Street Light Control System</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body  style="background-color:#fcde67;">
+  <h1>Poles list</h1>
+  
+  <div class="grid-container2">
+	<div class="grid-child poles-list">
+		<script>
+			function selectPole(element) {
+			  var xhr = new XMLHttpRequest();
+			  xhr.open("GET", "/update?poleID="+element.value, true);
+			  xhr.send();
+			}
+		</script>
+		<div style="font-size: 1.3rem;">The poles connected to the mesh are:</div>
+		<select name="polesList" id="polesList" onchange="selectPole(this);" style="color: #030e12; background-color: #fcde67; border-color: #030e12; border-radius: 7px;">
+			%poles%
+		</select>
+		</br>
+		</br>
+		</br>
+		<a href="/display_info"><button class="button">Display Info</button></a>
+		<a href="/"><button class="button">Go back</button></a>
+	</div>
+  </div>
+</body>
+</html>
