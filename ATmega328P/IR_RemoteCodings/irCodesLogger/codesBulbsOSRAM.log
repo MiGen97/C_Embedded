@@ -1,0 +1,72 @@
+Button Intensity+
+b'Protocol=NEC Address=0x0 Command=0x0 Raw-Data=0xFF00FF00 32 bits LSB first\r\n'
+
+Button Intensity-
+b'Protocol=NEC Address=0x0 Command=0x2 Raw-Data=0xFD02FF00 32 bits LSB first\r\n'
+
+Button OFF 
+b'Protocol=NEC Address=0x0 Command=0x6 Raw-Data=0xF906FF00 32 bits LSB first\r\n'
+
+Button ON
+b'Protocol=NEC Address=0x0 Command=0x7 Raw-Data=0xF807FF00 32 bits LSB first\r\n'
+
+Button RED
+b'Protocol=NEC Address=0x0 Command=0x8 Raw-Data=0xF708FF00 32 bits LSB first\r\n'
+
+Button GREEN
+b'Protocol=NEC Address=0x0 Command=0x9 Raw-Data=0xF609FF00 32 bits LSB first\r\n'
+
+Button BLUE
+b'Protocol=NEC Address=0x0 Command=0xA Raw-Data=0xF50AFF00 32 bits LSB first\r\n'
+
+Button White(W)
+Protocol=NEC Address=0x0 Command=0x3 Raw-Data=0xFC03FF00 32 bits LSB first
+
+Button RED+1
+b'Protocol=NEC Address=0x0 Command=0xC Raw-Data=0xF30CFF00 32 bits LSB first\r\n'
+
+Button GREEN+1
+b'Protocol=NEC Address=0x0 Command=0xD Raw-Data=0xF20DFF00 32 bits LSB first\r\n'
+
+Button BLUE+1
+b'Protocol=NEC Address=0x0 Command=0xE Raw-Data=0xF10EFF00 32 bits LSB first\r\n'
+
+Button FLASH
+b'Protocol=NEC Address=0x0 Command=0xF Raw-Data=0xF00FFF00 32 bits LSB first\r\n'
+
+Button RED+2
+b'Protocol=NEC Address=0x0 Command=0x10 Raw-Data=0xEF10FF00 32 bits LSB first\r\n'
+
+Button GREEN+2
+b'Protocol=NEC Address=0x0 Command=0x11 Raw-Data=0xEE11FF00 32 bits LSB first\r\n'
+
+Button BLUE+2
+b'Protocol=NEC Address=0x0 Command=0x12 Raw-Data=0xED12FF00 32 bits LSB first\r\n'
+
+Button STROBE
+b'Protocol=NEC Address=0x0 Command=0x13 Raw-Data=0xEC13FF00 32 bits LSB first\r\n'
+
+Button RED+3
+b'Protocol=NEC Address=0x0 Command=0x14 Raw-Data=0xEB14FF00 32 bits LSB first\r\n'
+
+Button GREEN+3
+b'Protocol=NEC Address=0x0 Command=0x15 Raw-Data=0xEA15FF00 32 bits LSB first\r\n'
+
+Button BLUE+3
+b'Protocol=NEC Address=0x0 Command=0x16 Raw-Data=0xE916FF00 32 bits LSB first\r\n'
+
+Button SMOOTH
+b'Protocol=NEC Address=0x0 Command=0x17 Raw-Data=0xE817FF00 32 bits LSB first\r\n'
+
+Button RED+4
+b'Protocol=NEC Address=0x0 Command=0x18 Raw-Data=0xE718FF00 32 bits LSB first\r\n'
+
+Button GREEN+4
+b'Protocol=NEC Address=0x0 Command=0x19 Raw-Data=0xE619FF00 32 bits LSB first\r\n'
+
+Button BLUE+4
+b'Protocol=NEC Address=0x0 Command=0x1A Raw-Data=0xE51AFF00 32 bits LSB first\r\n'
+
+Button MODE
+b'Protocol=NEC Address=0x0 Command=0x1B Raw-Data=0xE41BFF00 32 bits LSB first\r\n'
+

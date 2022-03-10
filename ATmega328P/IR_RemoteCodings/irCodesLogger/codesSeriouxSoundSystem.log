@@ -1,0 +1,140 @@
+Button SD
+b'Protocol=NEC Address=0x1 Command=0x42 Raw-Data=0xBD42FE01 32 bits LSB first\r\n'
+
+Button POWER ON/OFF
+b'Protocol=NEC Address=0x1 Command=0x41 Raw-Data=0xBE41FE01 32 bits LSB first\r\n'
+
+Button PRO
+b'Protocol=NEC Address=0x1 Command=0x40 Raw-Data=0xBF40FE01 32 bits LSB first\r\n'
+
+Button USB
+b'Protocol=NEC Address=0x1 Command=0x46 Raw-Data=0xB946FE01 32 bits LSB first\r\n'
+
+Button FM
+Protocol=NEC Address=0x1 Command=0x45 Raw-Data=0xBA45FE01 32 bits LSB first
+
+Button AUX
+b'Protocol=NEC Address=0x1 Command=0x44 Raw-Data=0xBB44FE01 32 bits LSB first\r\n'
+
+Button DVD
+b'Protocol=NEC Address=0x1 Command=0x4 Raw-Data=0xFB04FE01 32 bits LSB first\r\n'
+
+Button AUTO
+b'Protocol=NEC Address=0x1 Command=0x4A Raw-Data=0xB54AFE01 32 bits LSB first\r\n'
+
+Button SAVE
+b'Protocol=NEC Address=0x1 Command=0x48 Raw-Data=0xB748FE01 32 bits LSB first\r\n'
+
+Button TUNE+
+b'Protocol=NEC Address=0x1 Command=0x49 Raw-Data=0xB649FE01 32 bits LSB first
+
+Button CH-
+b'Protocol=NEC Address=0x1 Command=0x4E Raw-Data=0xB14EFE01 32 bits LSB first\r\n'
+
+Button Play/Pause
+b'Protocol=NEC Address=0x1 Command=0x4D Raw-Data=0xB24DFE01 32 bits LSB first\r\n'
+
+Button CH+
+b'Protocol=NEC Address=0x1 Command=0x4C Raw-Data=0xB34CFE01 32 bits LSB first\r\n'
+
+Button TUNE+
+b'Protocol=NEC Address=0x1 Command=0xD Raw-Data=0xF20DFE01 32 bits LSB first\r\n'
+
+Button Sleep-
+b'Protocol=NEC Address=0x1 Command=0xF Raw-Data=0xF00FFE01 32 bits LSB first\r\n'
+
+Button Sleep+
+b'Protocol=NEC Address=0x1 Command=0xC Raw-Data=0xF30CFE01 32 bits LSB first\r\n'
+
+Button Fl-
+b'Protocol=NEC Address=0x1 Command=0x3 Raw-Data=0xFC03FE01 32 bits LSB first\r\n'
+
+Button Fl+
+b'Protocol=NEC Address=0x1 Command=0x2 Raw-Data=0xFD02FE01 32 bits LSB first\r\n'
+
+Button Fr-
+b'Protocol=NEC Address=0x1 Command=0x1 Raw-Data=0xFE01FE01 32 bits LSB first\r\n'
+
+Button Fr+
+b'Protocol=NEC Address=0x1 Command=0x0 Raw-Data=0xFF00FE01 32 bits LSB first\r\n'
+
+Button SW+
+b'Protocol=NEC Address=0x1 Command=0xB Raw-Data=0xF40BFE01 32 bits LSB first\r\n'
+
+Button SW-
+b'Protocol=NEC Address=0x1 Command=0x7 Raw-Data=0xF807FE01 32 bits LSB first\r\n'
+
+Button Cen+
+b'Protocol=NEC Address=0x1 Command=0xA Raw-Data=0xF50AFE01 32 bits LSB first\r\n'
+
+Button Cen-
+b'Protocol=NEC Address=0x1 Command=0x6 Raw-Data=0xF906FE01 32 bits LSB first\r\n'
+
+Button VOL+
+b'Protocol=NEC Address=0x1 Command=0x9 Raw-Data=0xF609FE01 32 bits LSB first\r\n'
+
+Button VOL-
+Protocol=NEC Address=0x1 Command=0x5 Raw-Data=0xFA05FE01 32 bits LSB first
+
+Button SL-
+b'Protocol=NEC Address=0x1 Command=0x13 Raw-Data=0xEC13FE01 32 bits LSB first\r\n'
+
+Button SL+
+b'Protocol=NEC Address=0x1 Command=0x12 Raw-Data=0xED12FE01 32 bits LSB first\r\n'
+
+Button SR-
+b'Protocol=NEC Address=0x1 Command=0x11 Raw-Data=0xEE11FE01 32 bits LSB first\r\n'
+
+Button SR+
+b'Protocol=NEC Address=0x1 Command=0x10 Raw-Data=0xEF10FE01 32 bits LSB first\r\n'
+
+Button 1
+b'Protocol=NEC Address=0x1 Command=0x52 Raw-Data=0xAD52FE01 32 bits LSB first\r\n'
+
+Button 2
+b'Protocol=NEC Address=0x1 Command=0x51 Raw-Data=0xAE51FE01 32 bits LSB first\r\n'
+
+Button 3
+Protocol=NEC Address=0x1 Command=0x50 Raw-Data=0xAF50FE01 32 bits LSB first
+
+Button 4
+b'Protocol=NEC Address=0x1 Command=0x17 Raw-Data=0xE817FE01 32 bits LSB first\r\n'
+
+Button 5
+b'Protocol=NEC Address=0x1 Command=0x16 Raw-Data=0xE916FE01 32 bits LSB first\r\n'
+
+Button 6
+b'Protocol=NEC Address=0x1 Command=0x15 Raw-Data=0xEA15FE01 32 bits LSB first\r\n'
+
+Button 7
+b'Protocol=NEC Address=0x1 Command=0x56 Raw-Data=0xA956FE01 32 bits LSB first\r\n'
+
+
+Button 8
+b'Protocol=NEC Address=0x1 Command=0x55 Raw-Data=0xAA55FE01 32 bits LSB first\r\n'
+
+
+Button 9
+b'Protocol=NEC Address=0x1 Command=0x54 Raw-Data=0xAB54FE01 32 bits LSB first\r\n'
+
+Button REPEAT
+b'Protocol=NEC Address=0x1 Command=0x5A Raw-Data=0xA55AFE01 32 bits LSB first\r\n'
+
+Button 0
+b'Protocol=NEC Address=0x1 Command=0x59 Raw-Data=0xA659FE01 32 bits LSB first\r\n'
+
+Button RESET
+b'Protocol=NEC Address=0x1 Command=0x58 Raw-Data=0xA758FE01 32 bits LSB first\r\n'
+
+Button EQ-
+b'Protocol=NEC Address=0x1 Command=0x1B Raw-Data=0xE41BFE01 32 bits LSB first\r\n'
+
+Button EQ+
+b'Protocol=NEC Address=0x1 Command=0x1A Raw-Data=0xE51AFE01 32 bits LSB first\r\n'
+
+Button DISP-
+b'Protocol=NEC Address=0x1 Command=0x19 Raw-Data=0xE619FE01 32 bits LSB first\r\n'
+
+Button DISP+
+b'Protocol=NEC Address=0x1 Command=0x18 Raw-Data=0xE718FE01 32 bits LSB first\r\n'
+

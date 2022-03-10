@@ -1,0 +1,51 @@
+Button ON/OFF
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x1E Raw-Data=0xE11E2C2C 32 bits LSB first\r\n'
+
+Button F
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x8A Raw-Data=0x758A2C2C 32 bits LSB first\r\n'
+
+Button OPTICAL
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xB6 Raw-Data=0x49B62C2C 32 bits LSB first\r\n'
+
+Button VOL+
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x17 Raw-Data=0xE8172C2C 32 bits LSB first\r\n'
+
+Button STANDARD
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x36 Raw-Data=0xC9362C2C 32 bits LSB first\r\n'
+
+Button MUTE
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x1F Raw-Data=0xE01F2C2C 32 bits LSB first\r\n'
+
+Button VOL-
+Protocol=SAMSUNG Address=0x2C2C Command=0x16 Raw-Data=0xE9162C2C 32 bits LSB first
+
+Button BASS BLAST
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x1D Raw-Data=0xE21D2C2C 32 bits LSB first\r\n'
+
+Button REWIND<<
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x6 Raw-Data=0xF9062C2C 32 bits LSB first\r\n'
+
+Button Play/Pause
+Protocol=SAMSUNG Address=0x2C2C Command=0x4F Raw-Data=0xB04F2C2C 32 bits LSB first
+
+Button REWIND>>
+b'Protocol=SAMSUNG Address=0x2C2C Command=0x7 Raw-Data=0xF8072C2C 32 bits LSB first\r\n'
+
+Button DRC ON
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xC3 Raw-Data=0x3CC32C2C 32 bits LSB first\r\n'
+
+Button WOOFER LEVEL+
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xCA Raw-Data=0x35CA2C2C 32 bits LSB first\r\n'
+
+Button AUTO POWER ON
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xC7 Raw-Data=0x38C72C2C 32 bits LSB first\r\n'
+
+Button DRC OFF
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xC4 Raw-Data=0x3BC42C2C 32 bits LSB first\r\n'
+
+Button WOOFER LEVEL-
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xC9 Raw-Data=0x36C92C2C 32 bits LSB first\r\n'
+
+Button AUTO POWER OFF
+b'Protocol=SAMSUNG Address=0x2C2C Command=0xC8 Raw-Data=0x37C82C2C 32 bits LSB first\r\n'
+
