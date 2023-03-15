@@ -10,7 +10,7 @@
  * \date	14.III.2023 08:35PM
  * \tag		"The C Programming Language 2nd Edition"
  * 		by Brian W. Kernighan and Dennis M. Ritchie
- * 		Chapter 1, Section 1.5
+ * 		Chapter 1, Section 1.6
  * 		page 24, Exercise 1-13
  **********************************************************************/
 
