@@ -1,0 +1,3 @@
+The car amplifier is a cheap thing: [M6 Portable NFC Bluetooth Receiver](https://www.aliexpress.com/i/1005002910635778.html) .
+
+This project adds the automatic PowerOn functionality to this bluetooth receiver when it is powerd by USB.
