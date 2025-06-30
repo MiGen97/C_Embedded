@@ -16,7 +16,7 @@
 #define MAX_LIMIT 100
 #define NB_OF_VOWELS 10
 
-int getNumberOfVowels(char* str);
+int getNumberOfVowels(const char* str);
 
 int main(void)
 {

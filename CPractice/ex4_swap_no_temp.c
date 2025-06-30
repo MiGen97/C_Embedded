@@ -18,11 +18,14 @@
     int x,y;
 
     printf("Enter two integers: ");
-    if (scanf("%d %d", &x, &y) == 2) {
+    if (scanf("%d %d", &x, &y) == 2) 
+    {
         printf("Before swap: x = %d, y = %d\n", x, y);
         swap(&x, &y);
         printf("After  swap: x = %d, y = %d\n", x, y);
-    } else {
+    } 
+    else 
+    {
         printf("Invalid input.\n");
     }
 
