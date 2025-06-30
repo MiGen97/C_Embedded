@@ -56,7 +56,7 @@ void quickSortArray(int* array, const int leftBound, const int rightBound)
         int pivotPos = partition(array, leftBound, rightBound);
 
         // Recursively call quickSortArray() for left and right
-        // half based on pivot position
+        // halfs based on pivot position
         quickSortArray(array, leftBound, pivotPos - 1);
         quickSortArray(array, pivotPos + 1, rightBound);
     }
@@ -64,7 +64,7 @@ void quickSortArray(int* array, const int leftBound, const int rightBound)
 
 int partition(int* array, const int leftBound, const int rightBound)
 {
-    // select pivot wherever you want (e.g.:last element)
+    // select pivot wherever you want (e.g.:first element)
     // move it to right (already there)
     int pivot = array[leftBound];
 
@@ -85,6 +85,7 @@ int partition(int* array, const int leftBound, const int rightBound)
             swap(&array[i], &array[j]);
         }
     }
+    // place pivot in its correct position"
     swap(&array[leftBound], &array[j]);
     
     return j;
