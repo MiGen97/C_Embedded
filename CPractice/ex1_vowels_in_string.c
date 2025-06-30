@@ -1,5 +1,5 @@
 /**********************************************************************
- * \file        ex1_vowerls_in_string.c
+ * \file        ex1_vowels_in_string.c
  *
  * \brief       Write a function to count the number of vowels in a string.
  * 

@@ -1,0 +1,41 @@
+🔹 C Language Core & Syntax
+   1. Write a function to count the number of vowels in a string.
+   2. Reverse a string in place using pointers.
+   3. Implement your own strlen() using pointer arithmetic.
+   4. Swap two integers using a function and pointers (no temporary variable).
+   5. Check if a given number is a palindrome using integer arithmetic.
+
+🔹 Pointers & Arrays
+   6. Implement a function that returns the maximum element in an array using pointers.
+   7. Implement memcpy() using only pointers.
+   8. Sort an array using pointer notation (e.g., bubble sort).
+   9. Implement strcpy() without using standard library functions.
+   10. Rotate an array to the left by k positions using pointers.
+
+🔹 Memory Management (malloc, free, etc.)
+   11. Implement a function that duplicates a string using malloc.
+   12. Allocate a 2D array dynamically and fill it with values.
+   13. Write a function that removes duplicates from a dynamically allocated array.
+   14. Simulate calloc() using malloc and memset.
+   15. Write a memory-safe function to concatenate two strings.
+
+🔹 Structs & Pointers to Structs
+   16. Define a struct for a point in 2D and write a function to calculate the distance between two points.
+   17. Write a function to sort an array of structs based on one field.
+   18. Create a linked list and implement insert, delete, and display.
+   19. Write a function that returns the nth element of a linked list.
+   20. Deep copy a linked list using pointers.
+
+🔹 Advanced Pointer Use & Pointer Arithmetic
+   21. Use a pointer to a pointer to modify a string in-place inside a function.
+   22. Write a function that returns a dynamically allocated array containing the first n Fibonacci numbers.
+   23. Implement a function that reverses the words in a sentence using only pointer arithmetic.
+   24. Create your own simple memory pool allocator using arrays and pointers.
+   25. Implement a basic version of qsort() using function pointers.
+
+🔹 Bit Manipulation & Low-level Concepts
+   26. Write a function that counts the number of 1s in the binary representation of an integer.
+   27. Check if a number is a power of two using bitwise operators.
+   28. Reverse the bits of an unsigned integer.
+   29. Implement a function to swap two bits at given positions.
+   30. Pack and unpack multiple fields (e.g., 3-bit and 5-bit fields) into a single unsigned char.
