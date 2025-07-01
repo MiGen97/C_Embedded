@@ -19,7 +19,7 @@
    14. Simulate calloc() using malloc and memset.
    15. Write a memory-safe function to concatenate two strings.
 
-🔹 Structs & Pointers to Structs
+🔹 Structs & Pointers to Structs  -  DONE.
    16. Define a struct for a point in 2D and write a function to calculate the distance between two points.
    17. Write a function to sort an array of structs based on one field.
    18. Create a linked list and implement insert, delete, and display.
