@@ -20,7 +20,7 @@ int isDuplicate(int* array, int begin);
 
 int main(void)
 {
-    int* array = allocateArray(ELEMENTS*sizeof(int));
+    int* array = allocateArray(ELEMENTS);
     if(array == NULL){
         return 1;
     }
@@ -35,11 +35,13 @@ int main(void)
     }
 
     //shrink the memory allocated for array to the new size without duplicates.
-    array=(int*)realloc(array,uniqueIndex*sizeof(int));
-    if(array == NULL){
+    int* temp=(int*)realloc(array,uniqueIndex*sizeof(int));
+    if(temp == NULL){
         printf("Failed to reallocate memory.\n");
+        free(array);
         return 1;
     }
+    array = temp;
 
     for(int i=0; i < uniqueIndex; i++){
         printf("%d ",array[i]);
@@ -50,9 +52,9 @@ int main(void)
     return 0;
 }
 
-int* allocateArray(int size)
+int* allocateArray(int nbElements)
 {
-    int* array = (int*)malloc(size);
+    int* array = (int*)malloc(nbElements*sizeof(int));
     if(array == NULL)
     {
         printf("Failed to allocate the memory for array!\n");
