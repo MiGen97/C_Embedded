@@ -12,7 +12,7 @@
    9. Implement strcpy() without using standard library functions.
    10. Rotate an array to the left by k positions using pointers.
 
-🔹 Memory Management (malloc, free, etc.)
+🔹 Memory Management (malloc, free, etc.)  -  DONE.
    11. Implement a function that duplicates a string using malloc.
    12. Allocate a 2D array dynamically and fill it with values.
    13. Write a function that removes duplicates from a dynamically allocated array.
