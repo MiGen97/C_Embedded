@@ -118,6 +118,7 @@
     //insert first element in list
     if(*node == NULL){
         printf("List already empty.\n");
+        return;
     }
 
     //delete node at the begining of the list
@@ -129,7 +130,7 @@
     //delete node inside the list or at the end
     {
         int i=0;
-        for(Node* iter=*node;iter!=NULL; iter=iter->next, i++){
+        for(Node* iter=*node;iter->next!=NULL; iter=iter->next, i++){
             if(i+1 == index){
                 Node* temp = iter->next;
                 iter->next = temp->next;
