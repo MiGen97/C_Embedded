@@ -1,14 +1,14 @@
-🔹 C Language Core & Syntax
+🔹 C Language Core & Syntax  -  DONE.
    1. Write a function to count the number of vowels in a string.
    2. Reverse a string in place using pointers.
    3. Implement your own strlen() using pointer arithmetic.
    4. Swap two integers using a function and pointers (no temporary variable).
    5. Check if a given number is a palindrome using integer arithmetic.
 
-🔹 Pointers & Arrays
+🔹 Pointers & Arrays  -  DONE.
    6. Implement a function that returns the maximum element in an array using pointers.
    7. Implement memcpy() using only pointers.
-   8. Sort an array using pointer notation (e.g., bubble sort).
+   8. Sort an array using pointer notation (e.g., quick sort).
    9. Implement strcpy() without using standard library functions.
    10. Rotate an array to the left by k positions using pointers.
 
