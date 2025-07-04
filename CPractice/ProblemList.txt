@@ -1,3 +1,9 @@
+// system to practice programming, make write program to pass through those steps:
+// 1. TDD & COmpile
+// 2. Valgrind for memory leaks
+// 3. Optimize code (tool to optimize)
+
+
 🔹 C Language Core & Syntax  -  DONE.
    1. Write a function to count the number of vowels in a string.
    2. Reverse a string in place using pointers.
@@ -26,14 +32,14 @@
    19. Write a function that returns the nth element of a linked list.
    20. Deep copy a linked list using pointers.
 
-🔹 Advanced Pointer Use & Pointer Arithmetic
+🔹 Advanced Pointer Use & Pointer Arithmetic - DONE
    21. Use a pointer to a pointer to modify a string in-place inside a function.
    22. Write a function that returns a dynamically allocated array containing the first n Fibonacci numbers.
    23. Implement a function that reverses the words in a sentence using only pointer arithmetic.
    24. Create your own simple memory pool allocator using arrays and pointers.
    25. Implement a basic version of qsort() using function pointers.
 
-🔹 Bit Manipulation & Low-level Concepts
+🔹 Bit Manipulation & Low-level Concepts  -  DONE.
    26. Write a function that counts the number of 1s in the binary representation of an integer.
    27. Check if a number is a power of two using bitwise operators.
    28. Reverse the bits of an unsigned integer.
